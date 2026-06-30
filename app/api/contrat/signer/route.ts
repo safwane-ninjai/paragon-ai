@@ -117,7 +117,69 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // L'email d'activation avec PDF est envoyé par /api/docuseal/webhook
-  // dès que le client a signé dans DocuSeal
+  // En dev : complétion automatique DocuSeal + envoi email immédiat (le webhook ne peut pas appeler localhost)
+  if (process.env.NODE_ENV === "development") {
+    try {
+      // Compléter la soumission côté DocuSeal
+      await fetch(`${apiUrl}/api/submitters/${submitter.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", "X-Auth-Token": apiKey },
+        body: JSON.stringify({ send_email: false, completed: true }),
+        signal: AbortSignal.timeout(8000),
+      });
+
+      // Attendre que DocuSeal génère le PDF
+      await new Promise((r) => setTimeout(r, 4000));
+
+      // Récupérer l'URL du PDF
+      const subRes = await fetch(`${apiUrl}/api/submissions/${submitter.submission_id ?? ""}`, {
+        headers: { "X-Auth-Token": apiKey },
+        signal: AbortSignal.timeout(6000),
+      }).catch(() => null);
+
+      let pdfAttachment: { filename: string; content: Buffer } | undefined;
+      if (subRes?.ok) {
+        const subData = await subRes.json();
+        const pdfDoc = (subData.documents ?? [])[0];
+        if (pdfDoc?.url) {
+          const pdfRes = await fetch(pdfDoc.url, {
+            headers: { "X-Auth-Token": apiKey },
+            signal: AbortSignal.timeout(15000),
+          }).catch(() => null);
+          if (pdfRes?.ok) {
+            pdfAttachment = {
+              filename: "Contrat_Paragon_IA.pdf",
+              content: Buffer.from(await pdfRes.arrayBuffer()),
+            };
+          }
+        }
+      }
+
+      // Envoyer l'email d'activation avec PDF
+      const { Resend } = await import("resend");
+      const { buildActivationEmail } = await import("@/lib/email/activation");
+      const resendKey = process.env.RESEND_API_KEY;
+      const fromEmail = process.env.RESEND_FROM_EMAIL ?? "team@paragon-ia.tech";
+      const hubUrl    = process.env.WHOP_HUB_URL ?? "https://whop.com/hub/paragon-ia/";
+
+      if (resendKey) {
+        const resend = new Resend(resendKey);
+        const { subject, html, text } = buildActivationEmail({
+          prenom: compte.prenom, nom: compte.nom,
+          nomEntreprise: compte.nomEntreprise, selectedPlan, hubUrl,
+        });
+        const result = await resend.emails.send({
+          from: fromEmail, to: compte.email, bcc: adminEmail,
+          subject, html, text,
+          ...(pdfAttachment ? { attachments: [pdfAttachment] } : {}),
+        });
+        console.log("[DEV] Email activation envoyé:", result.data?.id, pdfAttachment ? "+ PDF" : "(sans PDF)");
+      }
+    } catch (err) {
+      console.error("[DEV] Erreur auto-complétion:", err);
+    }
+  }
+
+  // En prod : l'email est envoyé par /api/docuseal/webhook après signature réelle
   return NextResponse.json({ success: true });
 }
