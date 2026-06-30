@@ -1,0 +1,65 @@
+schema: spec-driven
+
+context: |
+  ## Produit
+  Paragon IA — Tunnel d'onboarding en 6 étapes pour inscrire des artisans français
+  (menuisiers, installateurs PAC, poseurs de panneaux solaires, etc.) sur une plateforme
+  de génération de leads qualifiés. Modèle "payé au résultat" : 0 € débité à l'inscription,
+  prélèvement par demande livrée. Mobile first. France / RGPD.
+
+  ## Les 6 étapes du funnel
+  1. **Ciblage** : ville, pays (défaut France), rayon km, codes postaux, type de prospect
+     (maison / appartement / les deux), type de chantier (Menuiserie & Extérieur ou Rénovation
+     énergétique). Affichage dynamique du nb de propriétaires ciblés + badge "100% zone exclusive".
+  2. **Plateforme** : social proof (témoignages, stats : 56 000+ RDV, 5+ ans, 17 secteurs, 4,9/5),
+     preview du dashboard client, CTA "Oui, je veux développer mon activité".
+  3. **Volume** : 3 plans — Starter (20 RDV, 95 €, 1 900 €/mois) · Booster (30 RDV, 85 €,
+     2 550 €/mois) · Croissance (40 RDV, 75 €, 3 000 €/mois — recommandé). CTA dynamique selon plan.
+  4. **Compte** : formulaire (société, prénom, nom, email pro, téléphone, mot de passe ≥8 car.),
+     création fiche Airtable via n8n, mention CGU.
+  5. **Paiement** : intégration Whop (CB enregistrée, 0 € débité), badges SSL 256 bits / PCI-DSS.
+  6. **Contrat** : contrat pré-rempli, checkbox CGV, champ nom complet, canvas de signature
+     (souris/doigt), bouton "Signer mon engagement", génération PDF via DocuSeal API, envoi email
+     au client ET à Paragon IA. Horodatage légal (art. 1366-1367 Code civil).
+  - **Confirmation** : message bienvenue, timeline 3 étapes, card agent dédié (Marie Claire, CSM).
+
+  ## Stack technique
+  - **Frontend** : Next.js 15 (App Router) + TypeScript + Tailwind CSS
+  - **Hébergement** : Vercel (Next.js) + Coolify (services backend)
+  - **Base de données** : Airtable (MVP) → Supabase à 1 000+ artisans
+  - **Paiement** : Whop — SDK `@whop-apps/sdk`, portail artisan inclus
+  - **E-signature** : DocuSeal self-hosted sur `docuseal.paragon-ia.tech` (fallback : Yousign)
+  - **Orchestration / webhooks** : n8n self-hosted (Coolify)
+  - **Auth** : Whop Auth (MVP)
+
+  ## Flux de données (orchestré par n8n)
+  - Étape 4 → création fiche Airtable (nom, société, email, tél, plan, ciblage)
+  - Étape 5 → Whop enregistre la CB, webhook n8n confirme
+  - Étape 6 → n8n appelle DocuSeal API → PDF généré → email client + Paragon IA
+  - Confirmation → Airtable mis à jour (statut = signé)
+  Le front ne parle jamais directement à DocuSeal/Whop pour les actions sensibles :
+  il passe par des Route Handlers Next.js qui déclenchent les webhooks n8n.
+  Jamais de clé API exposée côté client.
+
+  ## Conventions
+  - Mobile first : concevoir et tester mobile en premier
+  - Design : fond beige/crème (#FAF7F2), texte noir, accent or (#C9A84C), boutons noirs ou verts
+    selon contexte. Police serif bold pour titres, sans-serif pour corps.
+  - Barre de progression en haut : étape X/6 + nom de l'étape
+  - État de chaque étape conservé en mémoire (pas de perte si retour en arrière)
+  - Bouton "Continuer" désactivé tant que les champs obligatoires ne sont pas remplis
+  - Secrets dans `.env.local` uniquement : AIRTABLE_API_KEY, AIRTABLE_BASE_ID,
+    WHOP_API_KEY, N8N_WEBHOOK_URL, DOCUSEAL_API_URL, DOCUSEAL_API_KEY
+  - Pages d'onboarding non indexées (noindex)
+  - Performance : chaque étape < 2 secondes
+
+rules:
+  proposal:
+    - Rédiger en français
+    - Inclure une section "Non-objectifs" pour délimiter le périmètre
+    - Mentionner les intégrations tierces concernées (Whop, Airtable, DocuSeal, n8n)
+  tasks:
+    - Rédiger en français
+    - Découper en tâches de 2 heures maximum
+    - Préciser si la tâche touche le frontend, une API Route, ou un webhook n8n
+    - Indiquer les variables d'environnement requises si applicable
