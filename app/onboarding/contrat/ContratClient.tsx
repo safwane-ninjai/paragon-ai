@@ -176,39 +176,89 @@ Ci-après désignées ensemble les « Parties » et individuellement une « Part
 
 Préambule
 
-Le Prestataire exploite une plateforme logicielle (SaaS) assistée par intelligence artificielle, spécialisée dans la génération et la fourniture de prospects qualifiés — propriétaires de maison ciblés et ayant déclaré un intérêt pour des travaux ou services — destinés aux entreprises souhaitant développer leur activité.
+Le Prestataire exploite une plateforme logicielle (SaaS) assistée par intelligence artificielle, spécialisée dans la génération et la fourniture de prospects qualifiés — propriétaires de maison ciblés et ayant déclaré un intérêt pour des travaux ou services — destinés aux entreprises souhaitant développer leur activité. Le Client déclare souhaiter recourir à ce service dans le cadre de son activité professionnelle.
+
+Le présent contrat constitue un contrat-cadre au sens de l'article 1111 du Code civil. Il définit les conditions de fourniture des Prospects qualifiés ainsi que leurs modalités de facturation, au fur et à mesure de la livraison. En cas de contradiction entre le présent contrat et les Conditions Générales de Vente, les stipulations du présent contrat prévalent.
 
 Article 1 — Définition du Prospect qualifié
 
-On entend par « Prospect qualifié » la mise à disposition du Client, via la plateforme, de la donnée d'un propriétaire de maison réunissant : prénom et nom valides, adresse email valide, numéro de téléphone valide, statut de propriétaire de maison, situation dans la zone géographique définie par le Client, intérêt déclaré pour des travaux correspondant à l'activité du Client.
+On entend par « Prospect qualifié » (ci-après également « Contact ») la mise à disposition du Client, via la plateforme, de la donnée d'un propriétaire de maison réunissant l'ensemble des éléments suivants : prénom et nom valides ; adresse email valide ; numéro de téléphone valide ; statut de propriétaire de maison ; situation dans la zone géographique définie par le Client ; intérêt déclaré par le prospect pour des travaux ou services correspondant à l'activité du Client.
+
+Le terme « qualifié » désigne exclusivement un Prospect réunissant les éléments énumérés ci-dessus, à l'exclusion de toute autre caractéristique. Il n'emporte aucune garantie quant au budget réel du prospect ou à sa suffisance, à sa capacité financière ou à sa solvabilité, à l'exactitude ou à la sincérité de ses déclarations, y compris de l'intérêt déclaré, à son intention ferme de concrétiser, à sa disponibilité effective, ni à la probabilité de concrétisation commerciale.
+
+Chaque Prospect qualifié est mis à disposition après vérification de la présence des éléments ci-dessus, et non de leur exactitude.
 
 Article 2 — Exclusivité de fourniture
 
-Chaque Prospect qualifié est revendu exclusivement au Client dans sa zone géographique. Le Prestataire ne le revend, ne le cède ni ne le propose à aucun autre client ni concurrent dans cette même zone.
+Chaque Prospect qualifié est revendu exclusivement au Client dans sa zone géographique. Le Prestataire ne le revend, ne le cède ni ne le propose à aucun autre client ni concurrent dans cette même zone (Prospect « non partagé »). Cette exclusivité s'entend du seul fait du Prestataire ; ce dernier ne contrôle ni ne garantit que le prospect n'ait pas, de sa propre initiative, sollicité d'autres professionnels.
 
 Article 3 — Nature de l'engagement et absence de garantie de résultat
 
-Le Prestataire est tenu d'une obligation de livraison des Prospects qualifiés, à l'exclusion de toute obligation de résultat commercial. Il ne garantit ni vente, ni signature, ni chiffre d'affaires. La concrétisation commerciale relève de la seule responsabilité du Client.
+Le Prestataire est tenu d'une obligation de livraison des Prospects qualifiés conformes à l'Article 1, à l'exclusion de toute obligation de résultat commercial. Il ne garantit ni vente, ni signature, ni chiffre d'affaires, ni revenu, ni marge, ni taux de conversion. Aucune déclaration, orale ou écrite, ne saurait constituer une promesse de gain.
+
+Ne constituent ni un manquement du Prestataire ni un motif de remplacement, notamment : l'absence de réponse du prospect, un rendez-vous non honoré, un changement d'avis, un refus, l'absence de devis ou de vente, ou tout manquement du Client à recontacter ou planifier dans les délais. La concrétisation commerciale relève de la seule responsabilité du Client et dépend de son offre, de son prix, de sa réactivité et de sa performance.
 
 Article 4 — Volume engagé et tarification
 
-Volume engagé : ${plan.volume} Prospects qualifiés · Prix unitaire : ${plan.prixUnitaire} € par Prospect · Montant total : ${plan.total.toLocaleString("fr-FR")} € TTC. Le montant total n'est pas réglé d'avance ; le Client est prélevé au fur et à mesure des livraisons.
+Volume engagé : ${plan.volume} Prospects qualifiés ; Prix unitaire : ${plan.prixUnitaire} € par Prospect ; Montant total de l'engagement : ${plan.total.toLocaleString("fr-FR")} € TTC (prix unitaire × volume).
+
+Le montant total n'est pas réglé d'avance. Le Client est facturé et prélevé au fur et à mesure des livraisons. Le budget d'acquisition est avancé et supporté par le Prestataire, et intégré au prix unitaire.
+
+Article 5 — Fait générateur du paiement, modalités de prélèvement et moyen de paiement
+
+Le paiement est exigible dès qu'un Prospect qualifié est généré et validé par le Prestataire. Le prélèvement intervient préalablement à la mise à disposition du Prospect sur la plateforme ; le Client reconnaît et accepte expressément cette antériorité du prélèvement.
+
+Le Client autorise expressément le Prestataire à prélever, sur le moyen de paiement enregistré (carte bancaire ou mandat via Whop, Stripe ou tout processeur désigné par le Prestataire), le prix dû au titre des Prospects qualifiés livrés, jusqu'à concurrence du volume engagé et dans la limite du montant total de la commande.
+
+Le Prestataire détermine librement les modalités de prélèvement, le Client y consentant expressément. Le Prestataire peut notamment : prélever le montant correspondant à plusieurs Prospects en une seule opération groupée (par exemple en regroupant les Prospects livrés sur une même journée ou sur une période donnée) ; et/ou prélever en une seule fois le montant total de la commande, dès lors que l'ensemble des Prospects du volume engagé a été généré et validé ; et/ou fractionner le règlement du montant total en plusieurs prélèvements successifs, répartis sur plusieurs jours.
+
+La livraison pouvant être rapide — en vingt-quatre (24) heures, deux (2) ou trois (3) jours, et au maximum sous sept (7) jours — le Client reconnaît et accepte que le montant total de la commande puisse être prélevé en une seule fois ou en un nombre limité de prélèvements groupés sur une courte période, dès lors que les Prospects correspondants ont été générés et validés.
+
+À l'enregistrement, la carte fait l'objet d'une validation par autorisation d'un (1) euro, sans blocage de fonds. Les cartes prépayées et les cartes de type Revolut ne sont pas acceptées. Les prélèvements intervenant au cours d'une même journée sont regroupés en une seule opération en fin de journée.
 
 Article 6 — Délais de livraison
 
-Les Prospects qualifiés sont livrés dans un délai maximal de sept (7) jours à compter de la mise en place.
+Les Prospects qualifiés sont livrés dans un délai maximal de sept (7) jours à compter de la mise en place. La livraison peut toutefois intervenir plus rapidement — en vingt-quatre (24) heures, deux (2) ou trois (3) jours — selon la performance des campagnes. Chaque Prospect suit la séquence : génération, validation, prélèvement, puis mise à disposition sur la plateforme. La phase de validation et d'intégration peut requérir vingt-quatre (24) à quarante-huit (48) heures après la génération. Lorsque l'intégralité du volume est généré rapidement, l'ensemble des Prospects est livré et prélevé dans ce même délai.
 
 Article 7 — Garantie de remplacement (recours unique)
 
-Tout Prospect qualifié auquel manque objectivement l'un des éléments requis fait l'objet d'un remplacement gratuit, sous réserve du respect des conditions cumulatives (appel le jour même, compte rendu renseigné, signalement sous 24h). Le remplacement constitue le recours unique du Client ; aucun remboursement n'est dû.
+Tout Prospect qualifié auquel manque objectivement l'un des éléments requis à l'Article 1 fait l'objet d'un remplacement gratuit, sous réserve du respect, par le Client, des conditions cumulatives suivantes : avoir appelé le Prospect le jour même de sa réception ; avoir renseigné, dans la plateforme, le compte rendu du Prospect : déroulé de l'échange, qualité du prospect, réponse ou absence de réponse, conformité ou non aux critères, et élément(s) manquant(s) ; avoir signalé la non-conformité à son agent de support, via la plateforme, dans un délai de vingt-quatre (24) heures suivant la réception.
+
+La demande de remplacement est instruite par le Prestataire dans un délai de sept (7) jours. Passé le délai de signalement de vingt-quatre (24) heures, le Prospect est réputé conforme et accepté, et ne peut plus donner lieu à remplacement.
+
+Le Prestataire n'étant pas en mesure de vérifier l'exactitude ni la sincérité des éléments déclarés par le prospect, y compris l'intérêt déclaré, ceux-ci ne sauraient fonder une demande de remplacement. Ne donnent pareillement lieu à aucun remplacement : l'absence de réponse, un rendez-vous non honoré, un changement d'avis, un refus, l'absence de devis ou de vente, ou tout manquement du Client à appeler ou planifier dans les délais. Le remplacement constitue le recours unique du Client ; aucun remboursement n'est dû.
 
 Article 8 — Rôle et obligations du Client
 
-Le Client s'engage à appeler chaque Prospect le jour même de sa réception, assurer seul le rappel et le closing, renseigner le compte rendu de chaque Prospect, s'abstenir de revendre les Prospects à des tiers, et maintenir un moyen de paiement valide.
+Le Client s'engage à : appeler chaque Prospect le jour même de sa réception et planifier lui-même le rendez-vous selon ses propres disponibilités ; à défaut, le Prestataire est dégagé de toute responsabilité quant à l'absence de réponse du prospect, et la garantie de remplacement ne trouve pas à s'appliquer ; assurer seul le rappel, la prise de rendez-vous, l'établissement du devis et le closing ; renseigner le compte rendu de chaque Prospect et signaler toute non-conformité à son agent de support, via la plateforme, dans les conditions de l'Article 7 ; s'abstenir de revendre, céder ou transmettre les Prospects à des tiers ; fournir au Prestataire les informations nécessaires à l'exécution (offre, zone, critères), tout manquement pouvant entraîner un report des délais sans engager la responsabilité du Prestataire ; maintenir un moyen de paiement valide pendant toute la durée de l'exécution.
+
+Article 9 — Défaut de paiement et suspension
+
+En cas de rejet, de retard ou d'absence de paiement afférent à un Prospect livré, le Prestataire suspend de plein droit la livraison des Prospects suivants jusqu'à régularisation, et peut appliquer l'indemnité forfaitaire de quarante (40) euros prévue aux articles L.441-10 et D.441-5 du Code de commerce. Les sommes correspondant aux Prospects déjà livrés demeurent dues en toute hypothèse.
+
+Article 10 — Reconnaissance du Client
+
+En acceptant le présent contrat, le Client reconnaît avoir pris connaissance et compris, préalablement à tout paiement : la définition du Prospect qualifié (Article 1) et son propre rôle dans la planification du rendez-vous ; que le service consiste en la fourniture de Prospects qualifiés, et non de rendez-vous planifiés ni garantis ; la nature de l'engagement du Prestataire, qui est une obligation de livraison et non de résultat commercial (Article 3) ; l'absence de remboursement et la garantie de remplacement comme recours unique (Article 7) ; les modalités de prélèvement, y compris le prélèvement groupé ou en une seule fois du montant total (Articles 4 et 5).
+
+Les échanges, comptes rendus, formulaires d'onboarding et, le cas échéant, appels commerciaux pourront être enregistrés, après information préalable, et conservés à titre de preuve dans le respect de la réglementation applicable.
+
+Article 11 — Intégralité de l'accord et primauté de l'écrit
+
+Le présent contrat et les Conditions Générales de Vente constituent l'intégralité de l'accord conclu entre les Parties. Seuls les documents écrits — le présent contrat et les CGV acceptés par le Client — ont valeur d'engagement. Toute déclaration, promesse, assurance ou échange verbal, antérieur ou concomitant, quel qu'en soit l'auteur, y compris un représentant ou un commercial du Prestataire, est dépourvu de valeur contractuelle et ne saurait engager le Prestataire au-delà de ce qui est écrit.
+
+Article 12 — Propriété intellectuelle, données et droit applicable
+
+Les méthodes, systèmes, scripts, frameworks et process demeurent la propriété exclusive du Prestataire. Les informations échangées entre les Parties sont confidentielles. Les données des prospects sont collectées par le Prestataire sur une base légale conforme ; dès leur mise à disposition, le Client en devient responsable de traitement autonome et s'engage à les traiter conformément à la réglementation applicable. Le Client reconnaît avoir pris connaissance et accepté les CGV de Paragon IA, qui complètent le présent contrat.
+
+Le présent contrat est régi par le droit de l'État du Wyoming (États-Unis). Le Client agissant en qualité de professionnel, le droit de rétractation ne lui est pas applicable.
 
 Article 13 — Acceptation et signature électronique
 
-Le présent contrat est conclu et signé par voie électronique. Conformément aux articles 1366 et 1367 du Code civil, cette signature électronique a la même valeur juridique qu'une signature manuscrite.`;
+Le présent contrat est conclu et signé par voie électronique. Le Client l'accepte en cochant la case d'acceptation, en renseignant son nom complet, en apposant sa signature dans le cadre prévu à cet effet, puis en validant son engagement sur la plateforme.
+
+Conformément aux articles 1366 et 1367 du Code civil, cette signature électronique a la même valeur juridique qu'une signature manuscrite et prouve le consentement du Client ainsi que son engagement aux termes du présent contrat et des CGV.
+
+Au moment de la signature, le Prestataire enregistre et conserve, à titre de preuve : le nom du signataire, l'adresse email, la signature apposée, la date et l'heure exactes (horodatage), l'adresse IP, ainsi que la version des documents acceptés (contrat et CGV). Ces éléments font foi entre les Parties quant à l'existence, au contenu et à la date du consentement. Un PDF du contrat signé est mis à la disposition du Client après signature.`;
 
   return (
     <>
