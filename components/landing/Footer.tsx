@@ -5,7 +5,7 @@ export default function Footer() {
         <div className="flex items-center gap-4">
           <a href="#" className="hover:text-navy transition-colors">Mentions Légales</a>
           <span>·</span>
-          <a href="#" className="hover:text-navy transition-colors">Politique de Confidentialité</a>
+          <a href="https://paragon-ia.com/politique-de-confidentialite" target="_blank" rel="noopener" className="hover:text-navy transition-colors">Politique de Confidentialité</a>
           <span>·</span>
           <a href="#" className="hover:text-navy transition-colors">CGV</a>
         </div>
