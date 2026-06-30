@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
   const action: string = payload.action ?? "";
 
   // On traite uniquement l'activation du membership
-  if (action !== "membership.went_valid" && action !== "payment.succeeded") {
+  if (action !== "membership_activated" && action !== "membership.went_valid" && action !== "payment_succeeded") {
     return NextResponse.json({ ok: true });
   }
 
