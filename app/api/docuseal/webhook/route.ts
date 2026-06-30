@@ -87,44 +87,15 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // Patcher Airtable : Lien Contrat + Lien Whop
-  const whopKey = process.env.WHOP_API_KEY;
-  const whopEnv = process.env.NEXT_PUBLIC_WHOP_ENVIRONMENT ?? "production";
-  const airtableFields: Record<string, string> = {};
-
-  if (pdfUrl) airtableFields["Lien Contrat"] = pdfUrl;
-
-  if (whopKey) {
-    const memberRes = await fetch(
-      `https://api.whop.com/api/v5/memberships?user_email=${encodeURIComponent(email)}&expand[]=user`,
-      { headers: { Authorization: `Bearer ${whopKey}` }, signal: AbortSignal.timeout(6000) },
-    ).catch(() => null);
-    if (memberRes?.ok) {
-      const memberData = await memberRes.json();
-      const memberships: unknown[] = memberData?.data ?? memberData?.memberships ?? [];
-      if (memberships.length > 0) {
-        const m = memberships[0] as Record<string, unknown>;
-        const user = m.user as Record<string, unknown> | undefined;
-        const membershipId = m.id as string | undefined;
-        const userId = (m.user_id ?? user?.id) as string | undefined;
-        const dashBase = whopEnv === "sandbox" ? "https://sandbox.whop.com" : "https://whop.com";
-        const whopUrl = membershipId
-          ? `${dashBase}/memberships/${membershipId}/`
-          : userId ? `${dashBase}/users/${userId}/` : null;
-        if (whopUrl) airtableFields["Lien Whop"] = whopUrl;
-        if (userId) airtableFields["Whop User ID"] = userId;
-      }
-    }
-  }
-
-  if (Object.keys(airtableFields).length > 0) {
+  // Patcher Airtable : Lien Contrat (Lien Whop géré par /api/whop/webhook)
+  if (pdfUrl) {
     await fetch(`https://api.airtable.com/v0/${baseId}/${tableId}/${externalId}`, {
       method: "PATCH",
       headers: { Authorization: `Bearer ${airtableKey}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ fields: airtableFields }),
+      body: JSON.stringify({ fields: { "Lien Contrat": pdfUrl } }),
       signal: AbortSignal.timeout(6000),
     }).catch((err) => console.error("Airtable patch error:", err));
-    console.log("Airtable patché:", Object.keys(airtableFields).join(", "));
+    console.log("Airtable patché: Lien Contrat");
   }
 
   // Envoyer l'email d'activation avec le PDF joint

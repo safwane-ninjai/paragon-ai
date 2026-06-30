@@ -76,46 +76,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Submitter introuvable" }, { status: 502 });
   }
 
-  // 2. Récupérer le membership Whop par email → patcher Airtable
-  const whopKey     = process.env.WHOP_API_KEY;
+  // Lien Whop rempli par le webhook /api/whop/webhook (membership.went_valid)
   const airtableKey = process.env.AIRTABLE_API_KEY;
   const baseId      = process.env.AIRTABLE_BASE_ID;
   const tableId     = process.env.AIRTABLE_TABLE_ARTISANS;
-  const whopEnv     = process.env.NEXT_PUBLIC_WHOP_ENVIRONMENT ?? "production";
-
-  if (whopKey && airtableKey && baseId && tableId && artisanId) {
-    try {
-      const memberRes = await fetch(
-        `https://api.whop.com/api/v5/memberships?user_email=${encodeURIComponent(compte.email)}&expand[]=user`,
-        { headers: { Authorization: `Bearer ${whopKey}` }, signal: AbortSignal.timeout(6000) },
-      );
-      if (memberRes.ok) {
-        const memberData = await memberRes.json();
-        const memberships: unknown[] = memberData?.data ?? memberData?.memberships ?? [];
-        if (memberships.length > 0) {
-          const m = memberships[0] as Record<string, unknown>;
-          const user = m.user as Record<string, unknown> | undefined;
-          const whopMembershipId = m.id as string | undefined;
-          const whopUserId       = (m.user_id ?? user?.id) as string | undefined;
-          const dashBase         = whopEnv === "sandbox" ? "https://sandbox.whop.com" : "https://whop.com";
-          const whopProfileUrl   = whopMembershipId
-            ? `${dashBase}/memberships/${whopMembershipId}/`
-            : whopUserId ? `${dashBase}/users/${whopUserId}/` : null;
-
-          await patchArtisan(
-            artisanId,
-            {
-              ...(whopProfileUrl ? { "Lien Whop": whopProfileUrl } : {}),
-              ...(whopUserId ? { "Whop User ID": whopUserId } : {}),
-            },
-            airtableKey, baseId, tableId,
-          );
-        }
-      }
-    } catch (err) {
-      console.error("Whop lookup exception:", err);
-    }
-  }
 
   // En dev : complétion automatique DocuSeal + envoi email immédiat (le webhook ne peut pas appeler localhost)
   if (process.env.NODE_ENV === "development") {
