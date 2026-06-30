@@ -90,18 +90,35 @@ export default function PaiementClient({ planIds }: PaiementClientProps) {
           className="font-bold leading-[1.15] mb-3.5"
           style={{ fontSize: "clamp(28px,3.6vw,40px)", letterSpacing: "-1.1px", color: "#0B1320" }}
         >
-          Validez votre{" "}
-          <span
-            style={{
-              backgroundImage: "linear-gradient(transparent calc(100% - 5px), rgba(194,152,76,0.55) calc(100% - 5px), rgba(194,152,76,0.55) calc(100% - 1px), transparent calc(100% - 1px))",
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "100% 100%",
-              paddingBottom: "2px",
-            }}
-          >
-            inscription
-          </span>
-          .
+          {compte.prenom ? (
+            <>{compte.prenom}, validez votre{" "}
+              <span
+                style={{
+                  backgroundImage: "linear-gradient(transparent calc(100% - 5px), rgba(194,152,76,0.55) calc(100% - 5px), rgba(194,152,76,0.55) calc(100% - 1px), transparent calc(100% - 1px))",
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "100% 100%",
+                  paddingBottom: "2px",
+                }}
+              >
+                inscription
+              </span>
+              .
+            </>
+          ) : (
+            <>Validez votre{" "}
+              <span
+                style={{
+                  backgroundImage: "linear-gradient(transparent calc(100% - 5px), rgba(194,152,76,0.55) calc(100% - 5px), rgba(194,152,76,0.55) calc(100% - 1px), transparent calc(100% - 1px))",
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "100% 100%",
+                  paddingBottom: "2px",
+                }}
+              >
+                inscription
+              </span>
+              .
+            </>
+          )}
         </h1>
         <p className="text-[15.5px] leading-relaxed max-w-[560px] mx-auto" style={{ color: "#4A5468" }}>
           <strong style={{ color: "#0B1320" }}>0 € aujourd'hui.</strong> Recevez vos{" "}
