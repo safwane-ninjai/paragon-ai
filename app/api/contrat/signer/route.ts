@@ -155,6 +155,32 @@ export async function POST(req: NextRequest) {
         }
       }
 
+      // Patcher Airtable avec Lien Contrat + Lien Whop
+      if (artisanId && airtableKey && baseId && tableId) {
+        const devFields: Record<string, string> = {};
+        if (pdfAttachment) {
+          // Récupérer l'URL publique du PDF depuis DocuSeal
+          const subCheck = await fetch(`${apiUrl}/api/submissions/${submitter.submission_id ?? ""}`, {
+            headers: { "X-Auth-Token": apiKey },
+            signal: AbortSignal.timeout(6000),
+          }).catch(() => null);
+          if (subCheck?.ok) {
+            const subData = await subCheck.json();
+            const pdfUrl = (subData.documents ?? [])[0]?.url;
+            if (pdfUrl) devFields["Lien Contrat"] = pdfUrl;
+          }
+        }
+        if (Object.keys(devFields).length > 0) {
+          await fetch(`https://api.airtable.com/v0/${baseId}/${tableId}/${artisanId}`, {
+            method: "PATCH",
+            headers: { Authorization: `Bearer ${airtableKey}`, "Content-Type": "application/json" },
+            body: JSON.stringify({ fields: devFields }),
+            signal: AbortSignal.timeout(6000),
+          }).catch((err) => console.error("[DEV] Airtable patch error:", err));
+          console.log("[DEV] Airtable patché:", Object.keys(devFields).join(", "));
+        }
+      }
+
       // Envoyer l'email d'activation avec PDF
       const { Resend } = await import("resend");
       const { buildActivationEmail } = await import("@/lib/email/activation");
