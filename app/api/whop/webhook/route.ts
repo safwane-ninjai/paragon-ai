@@ -7,9 +7,15 @@ async function patchArtisanByEmail(
   baseId: string,
   tableId: string,
 ) {
-  // Chercher l'artisan par email
+  // Chercher le dernier artisan créé avec cet email
+  const params = new URLSearchParams({
+    filterByFormula: `{Email}="${email}"`,
+    "sort[0][field]": "Date Inscription",
+    "sort[0][direction]": "desc",
+    maxRecords: "1",
+  });
   const searchRes = await fetch(
-    `https://api.airtable.com/v0/${baseId}/${tableId}?filterByFormula=${encodeURIComponent(`{Email}="${email}"`)}`,
+    `https://api.airtable.com/v0/${baseId}/${tableId}?${params}`,
     { headers: { Authorization: `Bearer ${apiKey}` }, signal: AbortSignal.timeout(6000) },
   ).catch(() => null);
 
