@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Resend } from "resend";
-import { buildActivationEmail } from "@/lib/email/activation";
 
 async function patchArtisan(
   artisanId: string,
@@ -32,20 +30,22 @@ export async function POST(req: NextRequest) {
   }
 
   const { compte, selectedPlan, nomComplet, artisanId } = await req.json();
-  const adminEmail = process.env.PARAGON_EMAIL_SUPPORT ?? "serviceclient@paragon-ia.com";
+  const adminEmail = process.env.PARAGON_EMAIL_SUPPORT ?? "team@paragon-ia.com";
 
   // 1. Créer la soumission DocuSeal
+  // external_id = artisanId → utilisé par le webhook /api/docuseal/webhook pour retrouver le client
   const submissionRes = await fetch(`${apiUrl}/api/submissions`, {
     method: "POST",
     headers: { "Content-Type": "application/json", "X-Auth-Token": apiKey },
     body: JSON.stringify({
-      template_id: Number(templateId),
-      send_email: true,
+      template_id:  Number(templateId),
+      send_email:   true,
+      external_id:  artisanId ?? null,
       submitters: [
         {
-          email:    compte.email,
-          name:     `${compte.prenom} ${compte.nom}`,
-          role:     "Première partie",
+          email:      compte.email,
+          name:       `${compte.prenom} ${compte.nom}`,
+          role:       "Première partie",
           send_email: true,
           values: {
             societe:   compte.nomEntreprise,
@@ -87,16 +87,11 @@ export async function POST(req: NextRequest) {
     try {
       const memberRes = await fetch(
         `https://api.whop.com/api/v5/memberships?user_email=${encodeURIComponent(compte.email)}&expand[]=user`,
-        {
-          headers: { Authorization: `Bearer ${whopKey}` },
-          signal: AbortSignal.timeout(6000),
-        },
+        { headers: { Authorization: `Bearer ${whopKey}` }, signal: AbortSignal.timeout(6000) },
       );
-
       if (memberRes.ok) {
         const memberData = await memberRes.json();
         const memberships: unknown[] = memberData?.data ?? memberData?.memberships ?? [];
-
         if (memberships.length > 0) {
           const m = memberships[0] as Record<string, unknown>;
           const user = m.user as Record<string, unknown> | undefined;
@@ -105,9 +100,7 @@ export async function POST(req: NextRequest) {
           const dashBase         = whopEnv === "sandbox" ? "https://sandbox.whop.com" : "https://whop.com";
           const whopProfileUrl   = whopMembershipId
             ? `${dashBase}/memberships/${whopMembershipId}/`
-            : whopUserId
-              ? `${dashBase}/users/${whopUserId}/`
-              : null;
+            : whopUserId ? `${dashBase}/users/${whopUserId}/` : null;
 
           await patchArtisan(
             artisanId,
@@ -115,53 +108,16 @@ export async function POST(req: NextRequest) {
               ...(whopProfileUrl ? { "Lien Whop": whopProfileUrl } : {}),
               ...(whopUserId ? { "Whop User ID": whopUserId } : {}),
             },
-            airtableKey,
-            baseId,
-            tableId,
+            airtableKey, baseId, tableId,
           );
-          console.log("Whop info saved to Airtable:", whopProfileUrl ?? whopUserId);
-        } else {
-          console.log("Aucun membership Whop trouvé pour:", compte.email);
         }
-      } else {
-        console.error("Whop memberships error:", await memberRes.text());
       }
     } catch (err) {
       console.error("Whop lookup exception:", err);
     }
   }
 
-  // 3. Email d'activation Resend
-  const resendKey = process.env.RESEND_API_KEY;
-  const fromEmail = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
-  const hubUrl    = process.env.WHOP_HUB_URL ?? "https://whop.com/hub/paragon-ia/";
-
-  if (resendKey) {
-    try {
-      const resend = new Resend(resendKey);
-      const { subject, html, text } = buildActivationEmail({
-        prenom:        compte.prenom,
-        nom:           compte.nom,
-        nomEntreprise: compte.nomEntreprise,
-        selectedPlan,
-        hubUrl,
-      });
-
-      const result = await resend.emails.send({
-        from:    fromEmail,
-        to:      compte.email,
-        bcc:     adminEmail,
-        subject,
-        html,
-        text,
-      });
-
-      if (result.error) console.error("Resend error:", result.error);
-      else console.log("Resend email sent:", result.data?.id);
-    } catch (err) {
-      console.error("Resend exception:", err);
-    }
-  }
-
+  // L'email d'activation avec PDF est envoyé par /api/docuseal/webhook
+  // dès que le client a signé dans DocuSeal
   return NextResponse.json({ success: true });
 }
