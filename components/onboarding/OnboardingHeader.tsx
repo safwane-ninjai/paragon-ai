@@ -26,7 +26,7 @@ export default function OnboardingHeader({ backHref }: OnboardingHeaderProps) {
           </svg>
         </Link>
       )}
-      <Link href="/onboarding/ciblage" aria-label="Retour au début">
+      <Link href="/" aria-label="Retour à l'accueil">
         <Image
           src="/logo-paragon.png"
           alt="Paragon IA"
