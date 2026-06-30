@@ -22,15 +22,26 @@ export function buildActivationEmail(params: {
   <title>Votre compte Paragon IA est activé</title>
 </head>
 <body style="margin:0;padding:0;background:#F4F6F9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#F4F6F9;padding:40px 16px;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#F4F6F9;padding:32px 16px;">
     <tr>
       <td align="center">
-        <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+        <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
 
-          <!-- Logo -->
+          <!-- Logo texte -->
           <tr>
-            <td align="center" style="padding-bottom:28px;">
-              <img src="https://paragon-ia.com/logo-paragon.png" alt="Paragon IA" height="36" style="height:36px;display:block;" />
+            <td align="center" style="padding-bottom:24px;">
+              <a href="https://paragon-ia.com" style="text-decoration:none;display:inline-block;">
+                <table cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td style="background:linear-gradient(135deg,#C2984C,#A8852D);border-radius:10px;width:36px;height:36px;text-align:center;vertical-align:middle;">
+                      <span style="font-size:18px;font-weight:900;color:#fff;line-height:36px;">P</span>
+                    </td>
+                    <td style="padding-left:10px;vertical-align:middle;">
+                      <span style="font-size:20px;font-weight:900;color:#0B1320;letter-spacing:-0.5px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">Paragon <span style="color:#C2984C;">IA</span></span>
+                    </td>
+                  </tr>
+                </table>
+              </a>
             </td>
           </tr>
 
@@ -39,9 +50,9 @@ export function buildActivationEmail(params: {
             <td style="background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.07);">
 
               <!-- Gold top bar -->
-              <div style="height:4px;background:linear-gradient(90deg,#C2984C,#D9B770,#C2984C);"></div>
+              <table width="100%" cellpadding="0" cellspacing="0"><tr><td style="height:4px;background:linear-gradient(90deg,#C2984C,#D9B770,#C2984C);font-size:0;">&nbsp;</td></tr></table>
 
-              <table width="100%" cellpadding="0" cellspacing="0" style="padding:36px 40px 32px;">
+              <table width="100%" cellpadding="0" cellspacing="0" style="padding:32px 28px 28px;">
                 <!-- Green check -->
                 <tr>
                   <td align="center" style="padding-bottom:24px;">
@@ -150,7 +161,7 @@ export function buildActivationEmail(params: {
               </table>
 
               <!-- Footer card -->
-              <table width="100%" cellpadding="0" cellspacing="0" style="background:#F8FAFC;border-top:1px solid #F0F2F5;padding:20px 40px;">
+              <table width="100%" cellpadding="0" cellspacing="0" style="background:#F8FAFC;border-top:1px solid #F0F2F5;padding:20px 28px;">
                 <tr>
                   <td>
                     <p style="margin:0;font-size:12px;color:#6B7280;line-height:1.6;">
