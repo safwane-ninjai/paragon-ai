@@ -87,11 +87,10 @@ export default function CiblagePage() {
 
       {/* Form card */}
       <div
-        className="w-full max-w-[600px] rounded-[22px]"
+        className="w-full max-w-[600px] rounded-[22px] p-5 sm:p-8"
         style={{
           background: "#fff",
           border: "1px solid #E8EAEE",
-          padding: "32px",
           boxShadow: "0 8px 24px rgba(0,0,0,0.06), 0 4px 18px rgba(194,152,76,0.08)",
         }}
       >

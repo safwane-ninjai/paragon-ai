@@ -134,7 +134,7 @@ export default function ComptePage() {
 
       {/* Trust bar */}
       <div
-        className="w-full max-w-[560px] flex items-center mb-4"
+        className="w-full max-w-[560px] flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-0 mb-4"
         style={{
           background: "#fff",
           border: "1px solid #E8EAEE",
@@ -144,8 +144,8 @@ export default function ComptePage() {
         }}
       >
         {TRUST_ITEMS.map((item, i) => (
-          <div key={item.label} className="flex items-center" style={{ flex: 1 }}>
-            {i > 0 && <div style={{ width: 1, height: 28, background: "#E8EAEE", flexShrink: 0, marginRight: 16 }} />}
+          <div key={item.label} className="flex items-center sm:flex-1">
+            {i > 0 && <div className="hidden sm:block" style={{ width: 1, height: 28, background: "#E8EAEE", flexShrink: 0, marginRight: 16 }} />}
             <div className="flex items-center gap-[10px]" style={{ padding: "0 4px" }}>
               <div
                 className="flex items-center justify-center shrink-0"
@@ -165,12 +165,11 @@ export default function ComptePage() {
       {/* Form card */}
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-[560px]"
+        className="w-full max-w-[560px] p-5 sm:p-7"
         style={{
           background: "#fff",
           border: "1px solid #E8EAEE",
           borderRadius: 22,
-          padding: "28px 32px",
           boxShadow: "0 8px 24px rgba(0,0,0,0.06), 0 4px 18px rgba(194,152,76,0.08)",
         }}
       >

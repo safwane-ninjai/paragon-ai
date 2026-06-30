@@ -177,17 +177,13 @@ export default function ConfirmationPage() {
 
         {/* Agent card */}
         <div
-          className="w-full relative overflow-hidden"
+          className="w-full relative overflow-hidden flex flex-col items-center gap-6 sm:flex-row sm:items-center sm:gap-7"
           style={{
             maxWidth: 720,
             background: "linear-gradient(180deg, #FFFCF6 0%, #fff 100%)",
             border: "1px solid rgba(194,152,76,0.28)",
             borderRadius: 24,
-            padding: "32px",
-            display: "grid",
-            gridTemplateColumns: "140px 1fr",
-            gap: 28,
-            alignItems: "center",
+            padding: "24px",
             boxShadow: "0 12px 36px rgba(194,152,76,0.10), 0 4px 16px rgba(11,19,32,0.04)",
           }}
         >
@@ -196,14 +192,13 @@ export default function ConfirmationPage() {
 
           {/* Agent photo */}
           <div
-            className="relative"
+            className="relative shrink-0"
             style={{
               width: 140, height: 140,
               borderRadius: "50%",
               overflow: "hidden",
               border: "4px solid #fff",
               boxShadow: "0 10px 28px rgba(11,19,32,0.15), 0 2px 8px rgba(11,19,32,0.06)",
-              flexShrink: 0,
             }}
           >
             {/* Fallback initials */}
@@ -234,7 +229,7 @@ export default function ConfirmationPage() {
           </div>
 
           {/* Agent info */}
-          <div>
+          <div className="w-full">
             <div
               className="inline-flex items-center gap-2 mb-2"
               style={{ fontSize: 10.5, fontWeight: 800, letterSpacing: "1.4px", textTransform: "uppercase", color: "#15803D" }}

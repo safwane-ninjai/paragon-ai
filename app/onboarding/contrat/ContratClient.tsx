@@ -377,18 +377,17 @@ Le présent contrat est conclu et signé par voie électronique. Conformément a
 
       {/* Contract card */}
       <div
-        className="w-full"
+        className="w-full p-4 sm:px-[26px] sm:py-[22px]"
         style={{
           maxWidth: 880,
           background: "#fff",
           border: "1px solid #E8EAEE",
           borderRadius: 22,
-          padding: "22px 26px",
           boxShadow: "0 8px 24px rgba(0,0,0,0.06), 0 4px 18px rgba(194,152,76,0.08)",
         }}
       >
         {/* Contract header */}
-        <div className="flex items-center gap-3.5 pb-4 mb-4" style={{ borderBottom: "1px solid #F0F2F5" }}>
+        <div className="flex items-center gap-3.5 flex-wrap pb-4 mb-4" style={{ borderBottom: "1px solid #F0F2F5" }}>
           <div
             className="flex items-center justify-center shrink-0"
             style={{
@@ -457,18 +456,18 @@ Le présent contrat est conclu et signé par voie électronique. Conformément a
             <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#C2984C", display: "inline-block" }} />
             Votre pack souscrit
           </p>
-          <div className="flex items-center justify-between gap-4 flex-wrap pb-4" style={{ borderBottom: "1px solid rgba(194,152,76,0.16)" }}>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4" style={{ borderBottom: "1px solid rgba(194,152,76,0.16)" }}>
             <div>
-              <p style={{ fontSize: 22, fontWeight: 900, color: "#0B1320", letterSpacing: "-0.6px", lineHeight: 1.1 }}>
+              <p style={{ fontSize: "clamp(16px,2.2vw,22px)", fontWeight: 900, color: "#0B1320", letterSpacing: "-0.6px", lineHeight: 1.1 }}>
                 {plan.label} — {plan.volume} demandes qualifiées
               </p>
               <p style={{ fontSize: 12.5, color: "#6B7280", marginTop: 6, fontWeight: 600 }}>
                 {plan.prixUnitaire} € TTC / demande livrée · zone exclusive
               </p>
             </div>
-            <div className="text-right">
+            <div className="sm:text-right">
               <p style={{ fontSize: 10.5, color: "#6B7280", fontWeight: 800, letterSpacing: "1.4px", textTransform: "uppercase" }}>Total du pack</p>
-              <p style={{ fontSize: 28, fontWeight: 900, color: "#A8852D", letterSpacing: "-0.8px", lineHeight: 1.1, marginTop: 4 }}>
+              <p style={{ fontSize: "clamp(22px,3vw,28px)", fontWeight: 900, color: "#A8852D", letterSpacing: "-0.8px", lineHeight: 1.1, marginTop: 4 }}>
                 {plan.total.toLocaleString("fr-FR")} € TTC
               </p>
             </div>

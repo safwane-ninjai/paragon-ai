@@ -129,12 +129,11 @@ export default function PaiementClient({ planIds }: PaiementClientProps) {
 
       {/* Main card */}
       <div
-        className="w-full max-w-[700px]"
+        className="w-full max-w-[700px] p-5 sm:p-7"
         style={{
           background: "#fff",
           border: "1px solid #E8EAEE",
           borderRadius: 22,
-          padding: "28px 30px",
           boxShadow: "0 8px 24px rgba(0,0,0,0.06), 0 4px 18px rgba(194,152,76,0.08)",
         }}
       >
@@ -214,7 +213,7 @@ export default function PaiementClient({ planIds }: PaiementClientProps) {
         </div>
 
         {/* 3 reassurance cards */}
-        <div className="grid grid-cols-3 gap-[10px]">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-[10px]">
           {REASSURANCE.map((r) => (
             <div
               key={r.title}
