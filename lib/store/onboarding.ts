@@ -22,7 +22,6 @@ interface CompteState {
   nom: string;
   email: string;
   telephone: string;
-  motDePasse: string;
 }
 
 interface OnboardingStore {
@@ -33,6 +32,10 @@ interface OnboardingStore {
   setSelectedPlan: (plan: SelectedPlan) => void;
   compte: CompteState;
   setCompte: (partial: Partial<CompteState>) => void;
+  artisanId: string | null;
+  setArtisanId: (id: string) => void;
+  whopReceiptId: string | null;
+  setWhopReceiptId: (id: string) => void;
 }
 
 export const useOnboardingStore = create<OnboardingStore>()(
@@ -64,10 +67,13 @@ export const useOnboardingStore = create<OnboardingStore>()(
         nom: "",
         email: "",
         telephone: "",
-        motDePasse: "",
       },
       setCompte: (partial) =>
         set((state) => ({ compte: { ...state.compte, ...partial } })),
+      artisanId: null,
+      setArtisanId: (id) => set({ artisanId: id }),
+      whopReceiptId: null,
+      setWhopReceiptId: (id) => set({ whopReceiptId: id }),
     }),
     { name: "paragon-onboarding" }
   )

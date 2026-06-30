@@ -17,12 +17,15 @@ export default function WhopEmbed({ planId, email }: WhopEmbedProps) {
 
   if (!returnUrl) return null;
 
+  const environment = (process.env.NEXT_PUBLIC_WHOP_ENVIRONMENT as "sandbox" | "production") ?? "production";
+
   return (
     <WhopCheckoutEmbed
       planId={planId}
       prefill={{ email }}
       returnUrl={returnUrl}
       theme="light"
+      environment={environment}
     />
   );
 }

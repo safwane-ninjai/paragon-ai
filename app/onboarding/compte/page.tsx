@@ -59,20 +59,33 @@ const TRUST_ITEMS = [
 
 export default function ComptePage() {
   const router = useRouter();
-  const { compte, setCompte } = useOnboardingStore();
-  const [showPassword, setShowPassword] = useState(false);
+  const { compte, setCompte, selectedPlan, ciblage, setArtisanId } = useOnboardingStore();
+  const [isLoading, setIsLoading] = useState(false);
 
   const isValid =
     compte.nomEntreprise.trim() !== "" &&
     compte.prenom.trim() !== "" &&
     compte.nom.trim() !== "" &&
     compte.email.trim() !== "" &&
-    compte.telephone.trim() !== "" &&
-    compte.motDePasse.length >= 8;
+    compte.telephone.trim() !== "";
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!isValid) return;
+    if (!isValid || isLoading) return;
+    setIsLoading(true);
+    try {
+      const res = await fetch("/api/compte", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ compte, selectedPlan, ciblage }),
+      });
+      const data = await res.json();
+      if (data.artisanId) setArtisanId(data.artisanId);
+    } catch {
+      // on continue même si Airtable échoue
+    } finally {
+      setIsLoading(false);
+    }
     router.push("/onboarding/paiement");
   }
 
@@ -251,63 +264,10 @@ export default function ComptePage() {
           </div>
         </div>
 
-        {/* Section 02 */}
-        <div style={{ marginTop: 26, paddingTop: 26, borderTop: "1px solid #F0F2F5" }}>
-          <div className="flex items-start gap-3 mb-[18px]">
-            <div
-              className="flex items-center justify-center shrink-0"
-              style={{
-                width: 28, height: 28, borderRadius: 8,
-                background: "linear-gradient(135deg, #C2984C 0%, #A8852D 100%)",
-                color: "#fff",
-                fontSize: 11, fontWeight: 900, letterSpacing: "-0.2px",
-                boxShadow: "0 4px 10px rgba(194,152,76,0.25)",
-              }}
-            >
-              02
-            </div>
-            <div>
-              <p style={{ fontSize: 15, fontWeight: 800, color: "#0B1320", letterSpacing: "-0.2px", lineHeight: 1.2 }}>Sécurisez votre accès</p>
-              <p style={{ fontSize: 12, color: "#6B7280", marginTop: 3 }}>Mot de passe d'accès à votre plateforme</p>
-            </div>
-          </div>
-
-          <div className="relative">
-            <label style={labelStyle}>Mot de passe</label>
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="8 caractères minimum"
-              value={compte.motDePasse}
-              onChange={(e) => setCompte({ motDePasse: e.target.value })}
-              style={{ ...inputStyle, paddingRight: 48 }}
-              onFocus={(e) => { e.target.style.borderColor = "#C2984C"; e.target.style.boxShadow = "0 0 0 3px rgba(194,152,76,0.15)"; }}
-              onBlur={(e) => { e.target.style.borderColor = "#E8EAEE"; e.target.style.boxShadow = "none"; }}
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword((v) => !v)}
-              aria-label={showPassword ? "Masquer" : "Afficher"}
-              className="absolute right-3 top-[38px] text-gray-400 hover:text-gray-600 p-2"
-              style={{ borderRadius: 8, background: "none", border: "none" }}
-            >
-              {showPassword ? (
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
-                  <line x1="1" y1="1" x2="23" y2="23"/>
-                </svg>
-              ) : (
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
-                </svg>
-              )}
-            </button>
-          </div>
-        </div>
-
         {/* CTA */}
         <button
           type="submit"
-          disabled={!isValid}
+          disabled={!isValid || isLoading}
           className="w-full flex items-center justify-center gap-[10px] transition-all duration-[180ms]"
           style={{
             marginTop: 26,
@@ -317,21 +277,21 @@ export default function ComptePage() {
             fontWeight: 700,
             letterSpacing: "-0.2px",
             border: "none",
-            cursor: isValid ? "pointer" : "not-allowed",
-            background: isValid
-              ? "linear-gradient(180deg, #16A34A 0%, #15803D 100%)"
-              : "linear-gradient(180deg, #16A34A 0%, #15803D 100%)",
+            cursor: isValid && !isLoading ? "pointer" : "not-allowed",
+            background: "linear-gradient(180deg, #16A34A 0%, #15803D 100%)",
             color: "#fff",
-            opacity: isValid ? 1 : 0.45,
-            boxShadow: isValid
+            opacity: isValid && !isLoading ? 1 : 0.45,
+            boxShadow: isValid && !isLoading
               ? "0 12px 28px rgba(22,163,74,0.34), 0 4px 8px rgba(22,163,74,0.18), inset 0 1px 0 rgba(255,255,255,0.15)"
               : "none",
           }}
         >
-          <span>Créer mon compte</span>
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
-          </svg>
+          <span>{isLoading ? "Enregistrement…" : "Créer mon compte"}</span>
+          {!isLoading && (
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
+            </svg>
+          )}
         </button>
 
         <p className="text-center mt-3.5" style={{ fontSize: 12.5, color: "#6B7280", lineHeight: 1.55 }}>

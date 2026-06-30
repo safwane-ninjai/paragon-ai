@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useOnboardingStore } from "@/lib/store/onboarding";
 
 const PLAN_DATA: Record<string, { label: string; volume: number; prixUnitaire: number; total: number }> = {
@@ -68,7 +68,8 @@ const labelStyle = {
 
 export default function ContratClient() {
   const router = useRouter();
-  const { compte, selectedPlan } = useOnboardingStore();
+  const searchParams = useSearchParams();
+  const { compte, selectedPlan, artisanId, setWhopReceiptId } = useOnboardingStore();
   const plan = PLAN_DATA[selectedPlan] ?? PLAN_DATA.starter;
 
   const [hydrated, setHydrated] = useState(false);
@@ -82,7 +83,11 @@ export default function ContratClient() {
   const drawing = useRef(false);
   const lastPos = useRef<{ x: number; y: number } | null>(null);
 
-  useEffect(() => { setHydrated(true); }, []); // eslint-disable-line
+  useEffect(() => {
+    setHydrated(true);
+    const receiptId = searchParams.get("receipt_id") ?? searchParams.get("payment_id");
+    if (receiptId) setWhopReceiptId(receiptId);
+  }, []); // eslint-disable-line
 
   useEffect(() => {
     if (!hydrated) return;
@@ -146,7 +151,7 @@ export default function ContratClient() {
       const res = await fetch("/api/contrat/signer", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ compte, selectedPlan, nomComplet: nomComplet.trim(), signatureBase64 }),
+        body: JSON.stringify({ compte, selectedPlan, nomComplet: nomComplet.trim(), signatureBase64, artisanId }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Erreur");
