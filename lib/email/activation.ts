@@ -27,20 +27,11 @@ export function buildActivationEmail(params: {
       <td align="center">
         <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
 
-          <!-- Logo texte -->
+          <!-- Logo -->
           <tr>
             <td align="center" style="padding-bottom:24px;">
               <a href="https://paragon-ia.com" style="text-decoration:none;display:inline-block;">
-                <table cellpadding="0" cellspacing="0">
-                  <tr>
-                    <td style="background:linear-gradient(135deg,#C2984C,#A8852D);border-radius:10px;width:36px;height:36px;text-align:center;vertical-align:middle;">
-                      <span style="font-size:18px;font-weight:900;color:#fff;line-height:36px;">P</span>
-                    </td>
-                    <td style="padding-left:10px;vertical-align:middle;">
-                      <span style="font-size:20px;font-weight:900;color:#0B1320;letter-spacing:-0.5px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">Paragon <span style="color:#C2984C;">IA</span></span>
-                    </td>
-                  </tr>
-                </table>
+                <img src="https://paragon-ia.tech/logo-paragon.png" alt="Paragon IA" width="140" height="36" style="display:block;width:140px;height:36px;object-fit:contain;" />
               </a>
             </td>
           </tr>
@@ -56,9 +47,13 @@ export function buildActivationEmail(params: {
                 <!-- Green check -->
                 <tr>
                   <td align="center" style="padding-bottom:24px;">
-                    <div style="width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,#16A34A,#15803D);display:inline-flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(22,163,74,0.28);">
-                      <img src="https://api.iconify.design/lucide:check.svg?color=white&width=32&height=32" width="32" height="32" alt="✓" style="display:block;" />
-                    </div>
+                    <table cellpadding="0" cellspacing="0" style="box-shadow:0 10px 28px rgba(22,163,74,0.28);">
+                      <tr>
+                        <td width="68" height="68" align="center" valign="middle" style="width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,#16A34A,#15803D);text-align:center;vertical-align:middle;">
+                          <span style="font-size:30px;line-height:68px;color:#ffffff;font-weight:900;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">✓</span>
+                        </td>
+                      </tr>
+                    </table>
                   </td>
                 </tr>
 
