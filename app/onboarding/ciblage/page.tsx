@@ -37,7 +37,7 @@ export default function CiblagePage() {
 
   return (
     <div className="flex flex-col items-center w-full px-5 pb-16">
-      <OnboardingHeader backHref="/" />
+      <OnboardingHeader />
       <ProgressBar step={1} stepName="Ciblage" />
 
       {/* Intro */}
