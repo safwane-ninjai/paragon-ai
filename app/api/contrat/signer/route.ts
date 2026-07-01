@@ -12,6 +12,10 @@ export async function POST(req: NextRequest) {
   const { compte, selectedPlan, nomComplet, signatureBase64, artisanId } = await req.json();
   const adminEmail = process.env.PARAGON_EMAIL_SUPPORT ?? "team@paragon-ia.com";
 
+  const now = new Date();
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const dateSignature = `${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()}`;
+
   if (!signatureBase64) {
     return NextResponse.json({ error: "Signature manquante" }, { status: 400 });
   }
@@ -39,6 +43,7 @@ export async function POST(req: NextRequest) {
             dirigeant: nomComplet || `${compte.prenom} ${compte.nom}`,
             email:     compte.email,
             telephone: compte.telephone,
+            Date:      dateSignature,
           },
           fields: [
             { name: "signature", default_value: signatureBase64 },

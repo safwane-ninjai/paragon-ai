@@ -1,13 +1,11 @@
 interface TestimonialCardProps {
-  initials: string;
-  gradient: string;
   name: string;
   company: string;
   badge: string;
   children: React.ReactNode;
 }
 
-export default function TestimonialCard({ initials, gradient, name, company, badge, children }: TestimonialCardProps) {
+export default function TestimonialCard({ name, company, badge, children }: TestimonialCardProps) {
   return (
     <div
       className="flex flex-col gap-4 relative overflow-hidden"
@@ -29,17 +27,9 @@ export default function TestimonialCard({ initials, gradient, name, company, bad
       <p className="flex-1 leading-relaxed" style={{ fontSize: 13.5, color: "#4A5468" }}>{children}</p>
 
       {/* Author */}
-      <div className="flex items-center gap-3">
-        <div
-          className="flex items-center justify-center text-white shrink-0"
-          style={{ width: 40, height: 40, borderRadius: "50%", background: gradient, fontSize: 13, fontWeight: 700 }}
-        >
-          {initials}
-        </div>
-        <div>
-          <p style={{ fontSize: 13.5, fontWeight: 700, color: "#0B1320" }}>{name}</p>
-          <p style={{ fontSize: 11.5, color: "#9CA3AF", marginTop: 1 }}>{company}</p>
-        </div>
+      <div>
+        <p style={{ fontSize: 13.5, fontWeight: 700, color: "#0B1320" }}>{name}</p>
+        <p style={{ fontSize: 11.5, color: "#9CA3AF", marginTop: 1 }}>{company}</p>
       </div>
 
       {/* Badge */}

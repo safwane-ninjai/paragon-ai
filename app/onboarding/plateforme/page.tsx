@@ -93,8 +93,6 @@ export default function PlateformePage() {
       <div className="w-full max-w-[920px] mt-10 flex flex-col gap-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <TestimonialCard
-            initials="OC"
-            gradient="linear-gradient(135deg, #6B46C1, #9333EA)"
             name="Olivier Chevalier"
             company="Menuiserie Chevalier · Lyon (69)"
             badge="+15 chantiers / 2 sem"
@@ -104,8 +102,6 @@ export default function PlateformePage() {
           </TestimonialCard>
 
           <TestimonialCard
-            initials="TR"
-            gradient="linear-gradient(135deg, #EA580C, #F97316)"
             name="Thomas Roussel"
             company="Solar Énergie Pro · Bordeaux (33)"
             badge="+22 installs / mois"
@@ -115,8 +111,6 @@ export default function PlateformePage() {
           </TestimonialCard>
 
           <TestimonialCard
-            initials="CV"
-            gradient="linear-gradient(135deg, #0891B2, #06B6D4)"
             name="Caroline Vasseur"
             company="Vasseur Climat · Nantes (44)"
             badge="+18 PAC / 3 sem"
