@@ -16,6 +16,13 @@ export async function POST(req: NextRequest) {
   const pad = (n: number) => String(n).padStart(2, "0");
   const dateSignature = `${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()}`;
 
+  const nomEntreprise = compte.nomEntreprise || "Client";
+  const submissionName = `CONTRAT DE PRESTATION DE SERVICE — PARAGON IA — ${nomEntreprise}`;
+  const safeFileName = nomEntreprise
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-zA-Z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "");
+
   if (!signatureBase64) {
     return NextResponse.json({ error: "Signature manquante" }, { status: 400 });
   }
@@ -31,6 +38,7 @@ export async function POST(req: NextRequest) {
     body: JSON.stringify({
       template_id:  Number(templateId),
       send_email:   false,
+      name:         submissionName,
       submitters: [
         {
           email:       compte.email,
@@ -89,6 +97,7 @@ export async function POST(req: NextRequest) {
   }).catch(() => null);
 
   let pdfAttachment: { filename: string; content: Buffer } | undefined;
+  let auditAttachment: { filename: string; content: Buffer } | undefined;
   let pdfUrl: string | undefined;
   if (subRes?.ok) {
     const subData = await subRes.json();
@@ -101,8 +110,22 @@ export async function POST(req: NextRequest) {
       }).catch(() => null);
       if (pdfRes?.ok) {
         pdfAttachment = {
-          filename: "Contrat_Paragon_IA.pdf",
+          filename: `Contrat_Paragon_IA_${safeFileName}.pdf`,
           content: Buffer.from(await pdfRes.arrayBuffer()),
+        };
+      }
+    }
+
+    const auditLogUrl: string | undefined = subData.audit_log_url;
+    if (auditLogUrl) {
+      const auditRes = await fetch(auditLogUrl, {
+        headers: { "X-Auth-Token": apiKey },
+        signal: AbortSignal.timeout(15000),
+      }).catch(() => null);
+      if (auditRes?.ok) {
+        auditAttachment = {
+          filename: `Journal_Audit_Paragon_IA_${safeFileName}.pdf`,
+          content: Buffer.from(await auditRes.arrayBuffer()),
         };
       }
     }
@@ -126,7 +149,7 @@ export async function POST(req: NextRequest) {
   const { Resend } = await import("resend");
   const { buildActivationEmail } = await import("@/lib/email/activation");
   const resendKey = process.env.RESEND_API_KEY;
-  const fromEmail = process.env.RESEND_FROM_EMAIL ?? "team@paragon-ia.tech";
+  const fromEmail = `Paragon IA <${process.env.RESEND_FROM_EMAIL ?? "team@paragon-ia.tech"}>`;
   const hubUrl    = process.env.WHOP_HUB_URL ?? "https://whop.com/hub/paragon-ia/";
 
   if (resendKey) {
@@ -135,10 +158,13 @@ export async function POST(req: NextRequest) {
       prenom: compte.prenom, nom: compte.nom,
       nomEntreprise: compte.nomEntreprise, selectedPlan, hubUrl,
     });
+    const attachments = [pdfAttachment, auditAttachment].filter(
+      (a): a is { filename: string; content: Buffer } => a !== undefined,
+    );
     const result = await resend.emails.send({
       from: fromEmail, to: compte.email, bcc: adminEmail,
       subject, html, text,
-      ...(pdfAttachment ? { attachments: [pdfAttachment] } : {}),
+      ...(attachments.length ? { attachments } : {}),
     });
     if (result.error) console.error("Resend error:", result.error);
   }

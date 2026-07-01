@@ -199,7 +199,7 @@ Questions : serviceclient@paragon-ia.com
 © 2026 Paragon IA`;
 
   return {
-    subject: `✓ Votre compte Paragon IA est activé, ${prenom}`,
+    subject: `Félicitations, votre compte Paragon IA est activé, ${prenom}`,
     html,
     text,
   };

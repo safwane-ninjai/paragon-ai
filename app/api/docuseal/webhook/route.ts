@@ -100,7 +100,7 @@ export async function POST(req: NextRequest) {
 
   // Envoyer l'email d'activation avec le PDF joint
   const resendKey = process.env.RESEND_API_KEY;
-  const fromEmail = process.env.RESEND_FROM_EMAIL ?? "team@paragon-ia.tech";
+  const fromEmail = `Paragon IA <${process.env.RESEND_FROM_EMAIL ?? "team@paragon-ia.tech"}>`;
   const hubUrl    = process.env.WHOP_HUB_URL ?? "https://whop.com/hub/paragon-ia/";
   const adminEmail = process.env.PARAGON_EMAIL_SUPPORT ?? "team@paragon-ia.com";
 

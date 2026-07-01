@@ -32,7 +32,7 @@ const TRUST_ITEMS = [
 
 const REASSURANCE = [
   {
-    title: "0 € aujourd'hui",
+    title: "1,20 € aujourd'hui",
     desc: "Prélevé uniquement par demande livrée.",
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
@@ -121,7 +121,7 @@ export default function PaiementClient({ planIds }: PaiementClientProps) {
           )}
         </h1>
         <p className="text-[15.5px] leading-relaxed max-w-[560px] mx-auto" style={{ color: "#4A5468" }}>
-          <strong style={{ color: "#0B1320" }}>0 € aujourd'hui.</strong> Recevez vos{" "}
+          <strong style={{ color: "#0B1320" }}>1,20 € aujourd'hui.</strong> Recevez vos{" "}
           <strong style={{ color: "#0B1320" }}>demandes de rendez-vous qualifiés</strong>{" "}
           directement dans votre plateforme.
         </p>
@@ -181,7 +181,7 @@ export default function PaiementClient({ planIds }: PaiementClientProps) {
           <span>
             <strong style={{ color: "#0B1320" }}>Pourquoi votre carte maintenant ?</strong>{" "}
             Pour prélever automatiquement chaque demande de rendez-vous qualifiée livrée, sans rien ressaisir.{" "}
-            <strong style={{ color: "#0B1320" }}>0 € de débit aujourd'hui</strong>, on enregistre juste votre carte.
+            <strong style={{ color: "#0B1320" }}>1,20 € de débit aujourd'hui</strong>, on enregistre juste votre carte.
           </span>
         </div>
 
