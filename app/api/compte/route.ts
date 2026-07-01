@@ -6,6 +6,12 @@ const PLAN_META: Record<string, { volume: number; prix: number }> = {
   croissance: { volume: 40, prix: 75 },
 };
 
+const TYPE_PROSPECT_LABELS: Record<string, string> = {
+  maison:      "Maison",
+  appartement: "Appartement",
+  "les-deux":  "Les deux",
+};
+
 async function airtablePOST(tableId: string, fields: Record<string, unknown>, apiKey: string, baseId: string) {
   const res = await fetch(`https://api.airtable.com/v0/${baseId}/${tableId}`, {
     method: "POST",
@@ -38,6 +44,10 @@ export async function POST(req: NextRequest) {
     "Email":            compte.email,
     "Téléphone":        compte.telephone,
     "Ville":            ciblage?.ville ?? "",
+    "Pays":             ciblage?.pays ?? "",
+    "Rayon (km)":       ciblage?.rayon ?? undefined,
+    "Codes Postaux":    ciblage?.codesPostaux ?? "",
+    "Type Prospect":    TYPE_PROSPECT_LABELS[ciblage?.typeProspect] ?? undefined,
     "Types Chantier":   ciblage?.typesChantier ?? [],
     "Date Inscription": new Date().toISOString(),
   }, apiKey, baseId).catch((err) => {
