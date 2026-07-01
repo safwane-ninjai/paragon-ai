@@ -40,21 +40,23 @@ export async function POST(req: NextRequest) {
   // Log complet pour debugger le format Whop
   console.log("Whop webhook reçu:", JSON.stringify(payload, null, 2));
 
-  const action: string = payload.action ?? "";
+  const action: string = payload.type ?? payload.action ?? "";
 
-  if (action !== "membership_activated" && action !== "membership.went_valid" && action !== "payment_succeeded") {
+  if (action !== "membership.activated" && action !== "membership.went_valid" && action !== "payment.succeeded") {
     console.log("Whop webhook: event ignoré →", action);
     return NextResponse.json({ ok: true });
   }
 
-  const membershipData = payload.data ?? {};
-  const user = membershipData.user ?? {};
-  // Whop peut envoyer l'email à différents niveaux selon la version
-  const membershipId: string = membershipData.id ?? "";
-  const userId: string       = user.id ?? membershipData.user_id ?? "";
-  const userEmail: string    = user.email ?? membershipData.email ?? payload.email ?? "";
+  const data = payload.data ?? {};
+  const user = data.user ?? {};
+  // "membership.activated" a l'id de membership en data.id ; "payment.succeeded" l'a en data.membership.id
+  const membershipId: string = data.membership?.id ?? data.id ?? "";
+  const userId: string       = user.id ?? data.user_id ?? "";
+  const userEmail: string    = user.email ?? data.email ?? payload.email ?? "";
+  const manageUrl: string    = data.manage_url ?? "";
+  const memberId: string     = data.member?.id ?? "";
 
-  console.log("Whop webhook parsed →", { action, membershipId, userId, userEmail });
+  console.log("Whop webhook parsed →", { action, membershipId, userId, userEmail, manageUrl });
 
   if (!membershipId && !userId) {
     console.log("Whop webhook: aucune donnée membership");
@@ -72,9 +74,9 @@ export async function POST(req: NextRequest) {
   }
 
   const dashBase    = whopEnv === "sandbox" ? "https://sandbox.whop.com" : "https://whop.com";
-  const whopUrl     = membershipId
-    ? `${dashBase}/memberships/${membershipId}/`
-    : `${dashBase}/users/${userId}/`;
+  const whopUrl     = manageUrl
+    || (memberId ? `${dashBase}/billing/manage/${memberId}` : "")
+    || (membershipId ? `${dashBase}/memberships/${membershipId}/` : `${dashBase}/users/${userId}/`);
 
   const fields: Record<string, string> = {
     "Lien Whop":     whopUrl,
