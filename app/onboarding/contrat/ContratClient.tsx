@@ -77,7 +77,6 @@ export default function ContratClient() {
   const [nomComplet, setNomComplet] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [showContrat, setShowContrat] = useState(false);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const drawing = useRef(false);
@@ -262,100 +261,6 @@ Au moment de la signature, le Prestataire enregistre et conserve, à titre de pr
 
   return (
     <>
-    {/* ── Modale contrat complet ─────────────────────────────────────────── */}
-    {showContrat && (
-      <div
-        className="fixed inset-0 z-50 flex items-center justify-center p-4"
-        style={{ background: "rgba(11,19,32,0.55)", backdropFilter: "blur(4px)" }}
-        onClick={() => setShowContrat(false)}
-      >
-        <div
-          className="relative w-full flex flex-col"
-          style={{
-            maxWidth: 740,
-            maxHeight: "90vh",
-            background: "#fff",
-            borderRadius: 22,
-            boxShadow: "0 24px 60px rgba(0,0,0,0.22), 0 8px 24px rgba(0,0,0,0.1)",
-            overflow: "hidden",
-          }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {/* Modal header */}
-          <div
-            className="flex items-center gap-3 px-6 py-4 shrink-0"
-            style={{ borderBottom: "1px solid #F0F2F5" }}
-          >
-            <div
-              className="flex items-center justify-center shrink-0"
-              style={{ width: 36, height: 36, borderRadius: 10, background: "linear-gradient(135deg, #0B1320, #1A2238)", color: "#C2984C" }}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
-              </svg>
-            </div>
-            <div className="flex-1">
-              <p style={{ fontSize: 15, fontWeight: 800, color: "#0B1320", letterSpacing: "-0.2px" }}>Contrat d'activation — Paragon IA</p>
-              <p style={{ fontSize: 11.5, color: "#6B7280", marginTop: 2 }}>Document complet · {compte.prenom} {compte.nom}</p>
-            </div>
-            <button
-              type="button"
-              onClick={() => setShowContrat(false)}
-              style={{
-                width: 32, height: 32, borderRadius: "50%",
-                background: "#F3F4F6", border: "none",
-                cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-                color: "#6B7280",
-              }}
-            >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-              </svg>
-            </button>
-          </div>
-
-          {/* Modal body — scrollable */}
-          <div
-            className="flex-1 overflow-y-auto px-6 py-5"
-            style={{ scrollbarWidth: "thin", scrollbarColor: "#E8EAEE transparent" }}
-          >
-            <div
-              className="whitespace-pre-line"
-              style={{ fontSize: 13, color: "#374151", lineHeight: 1.75 }}
-            >
-              {contractText}
-            </div>
-          </div>
-
-          {/* Modal footer */}
-          <div
-            className="px-6 py-4 shrink-0 flex items-center justify-between gap-4 flex-wrap"
-            style={{ borderTop: "1px solid #F0F2F5", background: "#FAFAFA" }}
-          >
-            <p style={{ fontSize: 11.5, color: "#6B7280" }}>
-              Signature horodatée · valeur légale (art. 1366-1367 Code civil)
-            </p>
-            <button
-              type="button"
-              onClick={() => setShowContrat(false)}
-              style={{
-                background: "linear-gradient(135deg, #0B1320, #1A2238)",
-                color: "#fff",
-                border: "none",
-                borderRadius: 50,
-                padding: "10px 20px",
-                fontSize: 13,
-                fontWeight: 700,
-                cursor: "pointer",
-              }}
-            >
-              Fermer
-            </button>
-          </div>
-        </div>
-      </div>
-    )}
-
     <div className="flex flex-col items-center w-full px-5 pb-16">
       {/* Intro */}
       <div className="text-center mb-8 max-w-[720px]">
@@ -456,26 +361,6 @@ Au moment de la signature, le Prestataire enregistre et conserve, à titre de pr
               Paiement à l'usage · {plan.prixUnitaire} € TTC par demande livrée
             </p>
           </div>
-          <button
-            type="button"
-            onClick={() => setShowContrat(true)}
-            className="inline-flex items-center gap-[6px] shrink-0"
-            style={{
-              background: "#FAEDD6",
-              border: "1px solid rgba(194,152,76,0.28)",
-              borderRadius: 50,
-              padding: "8px 14px",
-              fontSize: 12.5,
-              fontWeight: 700,
-              color: "#A8852D",
-              cursor: "pointer",
-            }}
-          >
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
-            </svg>
-            Lire le contrat
-          </button>
         </div>
 
         {/* Contract scroll */}
